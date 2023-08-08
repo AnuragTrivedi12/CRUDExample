@@ -1,0 +1,28 @@
+CREATE SEQUENCE users_seq
+  START WITH 1
+  INCREMENT BY 1
+  NOCACHE
+  NOCYCLE;
+  
+CREATE TABLE users (
+  id NUMBER,
+  name VARCHAR2(50) NOT NULL,
+  password VARCHAR2(50) NOT NULL,
+  email VARCHAR2(100) NOT NULL,
+  country VARCHAR2(50) NOT NULL,
+  CONSTRAINT users_pk PRIMARY KEY (id),
+  CONSTRAINT email_unique UNIQUE (email)
+);
+
+
+CREATE OR REPLACE TRIGGER users_trigger
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+  SELECT users_seq.NEXTVAL INTO :NEW.id FROM DUAL;
+END;
+/
+
+select * from users;
+
+
